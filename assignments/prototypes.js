@@ -16,6 +16,19 @@
   * destroy() // prototype method that returns: '{this.name} was removed from the game.'
 */
 
+// attr is short for attributes 
+
+function GameOject(attr) {
+this.createdAt = attr.Date(),
+this.name = attr.name,  
+this.dimensions = attr.dimensopns,
+}
+
+GameOject.prototype.destroy = function() {
+  return `${this.name} was removed from the game`
+}
+
+
 /*
   === CharacterStats ===
   * healthPoints
@@ -23,6 +36,20 @@
   * should inherit destroy() from GameObject's prototype
 */
 
+function CharacterStats(attr) {
+  GameObject.call(this, attr)
+  this.healtPoints = attr.healthPoints,
+}
+
+CharacterStats.prototype = Object.create(GameObject.prototype);
+
+CharacterStats.prototype.takeDamage = function() {
+  if(this.healthPints <= 0){
+    GameObject.destroy();
+  } else {
+    return `${this.name} took damage!`
+  }
+}
 /*
   === Humanoid (Having an appearance or character resembling that of a human.) ===
   * team
