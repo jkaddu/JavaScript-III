@@ -66,6 +66,8 @@ function Humanoid(attr) {
   CharacterStats.call(this, attr);
   this.team = attr.team;
   this.weapons = attr.weapons;
+  this.damage = attr.damage;
+  this.airDamage = attr.airDamage;
   this.language = attr.language;
 }
 
@@ -75,6 +77,25 @@ Humanoid.prototype.greet = function() {
   return `${this.name} offers a greeting in ${this.language}`
 }
  
+Humanoid.prototype.attack = function(target) {
+  target.healthPoints = target.healthPoints - this.damage
+
+  if(target.healthPoints <= 0) {
+    return `${this.name} defeated ${target.name}`
+  } else {
+    return `${target.name} took ${this.damage} damage from ${this.name}`
+  }
+}
+
+Humanoid.prototype.airAttack = function(target) {
+  target.healthPoints = target.healthPoints - this.airDamage
+
+  if(target.healthPoints <= 0) {
+    return `${this.name} defeated ${target.name}`
+  } else {
+    return `${target.name} took ${this.airDamage} damage from ${this.name}`
+  }
+}
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
   * Instances of Humanoid should have all of the same properties as CharacterStats and GameObject.
@@ -150,3 +171,26 @@ Humanoid.prototype.greet = function() {
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+ const Invincible = new Humanoid ({
+    name: "Invincible",
+    healthPoints: 100,
+    damage: 25,
+    airDamage: 20
+  })
+
+  const Menace = new Humanoid ({
+    name: 'Menace',
+    healthPoints: 80,
+    damage: 15,
+    airDamage: 10
+  })
+
+  console.log(Invincible.attack(Menace))
+  console.log(Menace.attack(Invincible))
+  console.log(Invincible.airAttack(Menace))
+  console.log(Menace.airAttack(Invincible))
+  console.log(Invincible.attack(Menace))
+  console.log(Menace.attack(Invincible))
+  console.log(Invincible.attack(Menace))
+ 
